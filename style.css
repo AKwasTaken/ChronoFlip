@@ -1,0 +1,214 @@
+/* Theme Variables - Updated with a more minimalist color palette */
+:root[data-theme="light"] {
+  --bg-color: #f8f9fa;
+  --text-color: #212529;
+  --button-bg: #6c757d;
+  --button-hover: #495057;
+  --clock-bg: #343a40;
+  --clock-text: #f8f9fa;
+  --button-shadow: rgba(0, 0, 0, 0.1);
+  --preset-bg: rgba(255, 255, 255, 0.8);
+}
+
+:root[data-theme="dark"] {
+  --bg-color: #212529;
+  --text-color: #f8f9fa;
+  --button-bg: #495057;
+  --button-hover: #6c757d;
+  --clock-bg: #343a40;
+  --clock-text: #f8f9fa;
+  --button-shadow: rgba(0, 0, 0, 0.2);
+  --preset-bg: rgba(33, 37, 41, 0.8);
+}
+
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+/* Theme Toggle - Updated design */
+.theme-toggle {
+  position: fixed;
+  right: 40px;
+  top: 40px;
+  z-index: 1000;
+}
+
+.theme-toggle label {
+  cursor: pointer;
+  width: 56px;
+  height: 28px;
+  display: block;
+  border-radius: 100px;
+  position: relative;
+  background-color: var(--button-bg);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle label .toggle-track {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--bg-color);
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle input[type="checkbox"]:checked + label .toggle-track {
+  left: calc(100% - 26px);
+}
+
+/* Clock Container - Improved centering */
+.clock-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-5vh);
+}
+
+/* FlipClock Customization - Updated styling */
+.flip-clock-wrapper {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) scale(3.5) !important;
+}
+
+.flip-clock-wrapper ul {
+  margin: 0 2px !important;
+  width: 60px !important;
+  height: 90px !important;
+  background: var(--clock-bg) !important;
+  border-radius: 8px !important;
+}
+
+.flip-clock-wrapper ul li a div div.inn {
+  color: var(--clock-text);
+  background-color: var(--clock-bg);
+  text-shadow: none;
+  border-radius: 6px;
+  font-size: 70px !important;
+}
+
+.flip-clock-wrapper .flip {
+  box-shadow: 0 8px 16px var(--button-shadow) !important;
+}
+
+.flip-clock-divider .flip-clock-dot {
+  background: var(--text-color);
+  opacity: 0.5;
+}
+
+/* Preset Times - Updated design */
+.preset-times {
+  position: fixed;
+  left: 50%;
+  bottom: 25px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px;
+  background: var(--preset-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px var(--button-shadow);
+}
+
+.preset-btn {
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  background-color: var(--button-bg);
+  color: var(--bg-color);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0.85;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.preset-btn:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.preset-btn.active {
+  opacity: 1;
+  background-color: var(--button-hover);
+  box-shadow: 0 4px 12px var(--button-shadow);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1400px) {
+  .flip-clock-wrapper {
+    transform: translate(-50%, -50%) scale(2.8) !important;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .flip-clock-wrapper {
+    transform: translate(-50%, -50%) scale(2.2) !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .flip-clock-wrapper {
+    transform: translate(-50%, -50%) scale(1.6) !important;
+  }
+  
+  .preset-times {
+    flex-wrap: wrap;
+    padding: 12px 16px;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .flip-clock-wrapper {
+    transform: translate(-50%, -50%) scale(1.1) !important;
+  }
+}
+
+/* Hide flip clock labels */
+.flip-clock-label {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+.flip-clock-wrapper:before,
+.flip-clock-wrapper:after {
+  display: none !important;
+}
+
+.flip-clock-meridium {
+  display: none !important;
+}
+
