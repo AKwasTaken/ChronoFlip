@@ -1,9 +1,7 @@
-/* Import Montserrat font */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-
 /* Theme Variables */
 :root[data-theme="light"] {
   --bg-color: #f8f9fa;
+  --bg-color-rgb: 248, 249, 250;
   --text-color: #212529;
   --button-bg: #6c757d;
   --button-hover: #495057;
@@ -11,11 +9,11 @@
   --clock-text: #f8f9fa;
   --button-shadow: rgba(0, 0, 0, 0.1);
   --preset-bg: rgba(255, 255, 255, 0.8);
-  --bg-color-rgb: 248, 249, 250;
 }
 
 :root[data-theme="dark"] {
   --bg-color: #212529;
+  --bg-color-rgb: 33, 37, 41;
   --text-color: #f8f9fa;
   --button-bg: #495057;
   --button-hover: #6c757d;
@@ -23,10 +21,9 @@
   --clock-text: #f8f9fa;
   --button-shadow: rgba(0, 0, 0, 0.2);
   --preset-bg: rgba(33, 37, 41, 0.8);
-  --bg-color-rgb: 33, 37, 41;
 }
 
-/* Reset and Base Styles */
+/* Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -43,8 +40,7 @@ html, body {
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: all 0.3s ease;
-  font-family: 'Montserrat', sans-serif;
+  transition: background-color 0.3s;
 }
 
 /* Theme Toggle */
@@ -91,7 +87,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(-5vh);
 }
 
 /* FlipClock Customization */
@@ -101,10 +96,8 @@ body {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  position: absolute !important;
-  left: 47.8% !important;
-  top: 50% !important;
-  transform: translate(-50%, -50%) scale(3.5) !important;
+  position: relative !important;
+  transform: translateY(-5vh) scale(3.5) !important;
 }
 
 .flip-clock-wrapper ul {
@@ -120,23 +113,45 @@ body {
   background-color: var(--clock-bg);
   text-shadow: none;
   border-radius: 6px;
-  font-size: 70px !important;
 }
 
-.flip-clock-wrapper .flip {
-  box-shadow: 0 8px 16px var(--button-shadow) !important;
+.flip-clock-label {
+  display: none !important;
 }
 
-.flip-clock-divider .flip-clock-dot {
-  background: var(--text-color);
-  opacity: 0.5;
+/* Timer Complete Overlay */
+.timer-complete-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(var(--bg-color-rgb), 0.92);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(8px);
+}
+
+.timer-complete-overlay .message {
+  font-size: 5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.timer-complete-overlay.show {
+  display: flex;
 }
 
 /* Preset Times */
 .preset-times {
   position: fixed;
   left: 50%;
-  bottom: 25px;
+  bottom: 45px;
   transform: translateX(-50%);
   display: flex;
   gap: 12px;
@@ -159,8 +174,6 @@ body {
   opacity: 0.85;
   font-weight: 500;
   letter-spacing: 0.5px;
-  font-family: 'Montserrat', sans-serif;
-  text-transform: uppercase;
 }
 
 .preset-btn:hover {
@@ -171,49 +184,12 @@ body {
 .preset-btn.active {
   opacity: 1;
   background-color: var(--button-hover);
-  box-shadow: 0 4px 12px var(--button-shadow);
-}
-
-/* Timer Complete Overlay */
-.timer-complete-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(var(--bg-color-rgb), 0.95);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  z-index: 2000;
-}
-
-.timer-complete-overlay .message {
-  font-size: 4.5rem;
-  font-weight: 600;
-  color: var(--text-color);
-  transform: translateY(20px);
-  transition: all 0.4s ease;
-  font-family: 'Montserrat', sans-serif;
-  letter-spacing: 1px;
-}
-
-.timer-complete-overlay.show {
-  opacity: 1;
-  visibility: visible;
-}
-
-.timer-complete-overlay.show .message {
-  transform: translateY(0);
 }
 
 /* Copyright */
 .copyright {
   position: fixed;
-  bottom: 5px;
+  bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.75rem;
@@ -222,26 +198,24 @@ body {
   z-index: 1000;
   font-weight: 500;
   letter-spacing: 0.5px;
-  font-family: 'Montserrat', sans-serif;
-  text-transform: uppercase;
 }
 
 /* Responsive Design */
 @media screen and (max-width: 1400px) {
   .flip-clock-wrapper {
-    transform: translate(-50%, -50%) scale(2.8) !important;
+    transform: translateY(-5vh) scale(2.8) !important;
   }
 }
 
 @media screen and (max-width: 1200px) {
   .flip-clock-wrapper {
-    transform: translate(-50%, -50%) scale(2.2) !important;
+    transform: translateY(-5vh) scale(2.2) !important;
   }
 }
 
 @media screen and (max-width: 768px) {
   .flip-clock-wrapper {
-    transform: translate(-50%, -50%) scale(1.6) !important;
+    transform: translateY(-5vh) scale(1.6) !important;
   }
   
   .preset-times {
@@ -253,22 +227,6 @@ body {
 
 @media screen and (max-width: 480px) {
   .flip-clock-wrapper {
-    transform: translate(-50%, -50%) scale(1.1) !important;
+    transform: translateY(-5vh) scale(1.1) !important;
   }
-}
-
-/* Hide flip clock labels */
-.flip-clock-label {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-}
-
-.flip-clock-wrapper:before,
-.flip-clock-wrapper:after {
-  display: none !important;
-}
-
-.flip-clock-meridium {
-  display: none !important;
 }
