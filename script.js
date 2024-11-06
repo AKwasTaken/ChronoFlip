@@ -58,6 +58,15 @@
       });
     }
 
+    function showCompletionMessage() {
+      const overlay = document.querySelector('.timer-complete-overlay');
+      overlay.classList.add('show');
+      
+      setTimeout(() => {
+        overlay.classList.remove('show');
+      }, 3000); // Show for 3 seconds
+    }
+
     function startCountdown(timeInSeconds) {
       $('.js-flipclock').html('');
 
@@ -82,11 +91,14 @@
                   this.factory.time.time = 0;
                   this.factory.flip();
                   
-                  // Stop after showing zero
+                  // Show completion message
+                  showCompletionMessage();
+                  
+                  // Stop after showing zero and message
                   setTimeout(() => {
                     this.stop();
                     initEmptyClock();
-                  }, 1500);
+                  }, 3500); // Wait for message to disappear
                 } else {
                   this.factory.increment();
                 }
