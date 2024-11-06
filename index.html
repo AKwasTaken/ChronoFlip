@@ -11,15 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Load jQuery first -->
+  <!-- Load jQuery and FlipClock -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  
-  <!-- FlipClock -->
   <link rel="stylesheet" href="https://raw.githack.com/SochavaAG/example-mycode/master/pens/1_plugins/flipclock/flipclock.css">
   <script src="https://raw.githack.com/SochavaAG/example-mycode/master/pens/1_plugins/flipclock/flipclock.min.js"></script>
   
-  <!-- Our custom files -->
-  <link rel="stylesheet" href="css/reset.css">
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -40,6 +37,7 @@
   </div>
   
   <div class="preset-times">
+    <button class="preset-btn" data-seconds="5">5s</button>
     <button class="preset-btn" data-seconds="30">30s</button>
     <button class="preset-btn" data-seconds="60">1m</button>
     <button class="preset-btn" data-seconds="120">2m</button>
@@ -54,7 +52,6 @@
     © 2024 ChronoFlip by Aneeth Kumaar
   </div>
 
-  <!-- Load our custom script last -->
   <script src="js/script.js"></script>
 </body>
 </html>
