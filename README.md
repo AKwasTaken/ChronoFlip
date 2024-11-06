@@ -71,5 +71,4 @@ ChronoFlip is a sleek, user-friendly countdown timer that features a visually ap
 - Edge
 
 ## Things to Fix
-- Timer doesnt seem to run back to zero, and gets stuck at 1 second.
-- No notification sound playing after the timer runs down.
+- Timer when hitting zero is a bit laggy, when overlay is shown. Mainly due to the blur effect. Should optimise js.
