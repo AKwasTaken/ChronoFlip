@@ -69,3 +69,7 @@ ChronoFlip is a sleek, user-friendly countdown timer that features a visually ap
 - Firefox
 - Safari
 - Edge
+
+## Things to Fix
+- Timer doesnt seem to run back to zero, and gets stuck at 1 second.
+- No notification sound playing after the timer runs down.
