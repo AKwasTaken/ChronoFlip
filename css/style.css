@@ -28,19 +28,22 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html, body {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
+  font-family: 'Montserrat', sans-serif;
 }
 
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: background-color 0.3s;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  will-change: background-color, color;
 }
 
 /* Theme Toggle */
@@ -59,7 +62,8 @@ body {
   border-radius: 100px;
   position: relative;
   background-color: var(--button-bg);
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
+  will-change: background-color;
 }
 
 .theme-toggle label .toggle-track {
@@ -70,7 +74,8 @@ body {
   background-color: var(--bg-color);
   top: 2px;
   left: 2px;
-  transition: all 0.3s ease;
+  transition: left 0.2s ease, background-color 0.2s ease;
+  will-change: left, background-color;
 }
 
 .theme-toggle input[type="checkbox"]:checked + label .toggle-track {
@@ -98,6 +103,7 @@ body {
   align-items: center !important;
   position: relative !important;
   transform: translateY(-5vh) scale(3.5) !important;
+  will-change: transform;
 }
 
 .flip-clock-wrapper ul {
@@ -126,12 +132,17 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(var(--bg-color-rgb), 0.92);
+  background-color: rgba(var(--bg-color-rgb), 0.95);
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 2000;
+  z-index: 9999;
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.timer-complete-overlay.show {
+  display: flex !important;
 }
 
 .timer-complete-overlay .message {
@@ -141,10 +152,6 @@ body {
   letter-spacing: 2px;
   text-transform: uppercase;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.timer-complete-overlay.show {
-  display: flex;
 }
 
 /* Preset Times */
@@ -158,6 +165,7 @@ body {
   padding: 16px 24px;
   background: var(--preset-bg);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 16px;
   box-shadow: 0 8px 32px var(--button-shadow);
 }
@@ -170,7 +178,8 @@ body {
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  will-change: transform, opacity;
   opacity: 0.85;
   font-weight: 500;
   letter-spacing: 0.5px;
@@ -184,6 +193,16 @@ body {
 .preset-btn.active {
   opacity: 1;
   background-color: var(--button-hover);
+}
+
+#current-time-btn {
+  background: linear-gradient(135deg, var(--button-bg), var(--button-hover));
+}
+
+#current-time-btn:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, var(--button-hover), var(--button-bg));
 }
 
 /* Copyright */
@@ -222,11 +241,26 @@ body {
     flex-wrap: wrap;
     padding: 12px 16px;
     justify-content: center;
+    gap: 8px;
+  }
+  
+  .preset-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
   }
 }
 
 @media screen and (max-width: 480px) {
   .flip-clock-wrapper {
     transform: translateY(-5vh) scale(1.1) !important;
+  }
+  
+  .theme-toggle {
+    right: 20px;
+    top: 20px;
+  }
+  
+  .timer-complete-overlay .message {
+    font-size: 3rem;
   }
 }

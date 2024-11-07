@@ -3,24 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>ChronoFlip</title>
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="assets/images/favicon.png">
-  <!-- For Apple devices -->
-  <link rel="apple-touch-icon" href="assets/images/favicon1.png">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A modern flip clock timer with theme support">
   <meta name="author" content="Aneeth Kumaar">
+  <link rel="icon" type="image/png" href="assets/images/favicon1.png">
   
-  <!-- Google Fonts -->
+  <!-- Preconnect to external resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Load jQuery and FlipClock -->
+  <!-- Dependencies -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://raw.githack.com/SochavaAG/example-mycode/master/pens/1_plugins/flipclock/flipclock.css">
-  <script src="https://raw.githack.com/SochavaAG/example-mycode/master/pens/1_plugins/flipclock/flipclock.min.js"></script>
+  <link rel="stylesheet" href="css/flipclock.css">
+  <script src="js/flipclock.min.js"></script>
   
-  <!-- Custom CSS -->
+  <!-- Custom styles -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -47,9 +45,11 @@
     <button class="preset-btn" data-seconds="120">2m</button>
     <button class="preset-btn" data-seconds="300">5m</button>
     <button class="preset-btn" data-seconds="600">10m</button>
+    <button class="preset-btn" data-seconds="900">15m</button>
     <button class="preset-btn" data-seconds="1800">30m</button>
     <button class="preset-btn" data-seconds="3600">1h</button>
     <button class="preset-btn" data-seconds="7200">2h</button>
+    <button class="preset-btn" id="current-time-btn">Current Time</button>
   </div>
 
   <div class="copyright">
