@@ -5,6 +5,7 @@
     let clockTimer;
     let wakeLock = null;
     let activeTimer = null;
+    let timerWorker = null;
 
     // Initialize audio with preload
     const audio = new Audio('sounds/timer-bell.mp3');
@@ -13,6 +14,33 @@
       sound.preload = 'auto';
       sound.volume = 1.0;
     });
+
+    // Initialize Web Worker
+    function initWorker() {
+      if (typeof Worker !== 'undefined') {
+        try {
+          timerWorker = new Worker('js/timer.worker.js');
+          
+          timerWorker.onmessage = function(e) {
+            if (e.data.type === 'tick') {
+              if (flipClock && activeTimer === flipClock) {
+                flipClock.setTime(e.data.remaining);
+              }
+            }
+            if (e.data.type === 'complete') {
+              if (flipClock && activeTimer === flipClock) {
+                flipClock.setTime(0);
+                setTimeout(() => {
+                  showOverlay();
+                }, 600);
+              }
+            }
+          };
+        } catch (error) {
+          console.log('Worker initialization failed:', error);
+        }
+      }
+    }
 
     // Wake Lock functions
     async function requestWakeLock() {
@@ -68,6 +96,9 @@
           sound.pause();
           sound.currentTime = 0;
         });
+        if (timerWorker) {
+          timerWorker.postMessage({ command: 'stop' });
+        }
         if (activeTimer) {
           activeTimer.stop();
         }
@@ -138,25 +169,19 @@
       flipClock = $('.js-flipclock').FlipClock(timeInSeconds, {
         clockFace: 'HourlyCounter',
         countdown: true,
-        autoStart: true,
-        minimumDigits: 6,
-        callbacks: {
-          interval: function() {
-            const time = this.factory.getTime().time;
-            
-            if (this.factory.running) {
-              if (time <= 0) {
-                this.stop();
-                setTimeout(() => {
-                  showOverlay();
-                }, 600);
-              }
-            }
-          }
-        }
+        autoStart: false,
+        minimumDigits: 6
       });
 
       activeTimer = flipClock;
+      
+      // Start the worker
+      if (timerWorker) {
+        timerWorker.postMessage({
+          command: 'start',
+          duration: timeInSeconds
+        });
+      }
     }
 
     // Event Listeners
@@ -205,7 +230,8 @@
       }
     });
 
-    // Initialize
+    // Initialize everything
+    initWorker();
     initEmptyClock();
   });
 })(jQuery);
