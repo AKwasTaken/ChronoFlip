@@ -1,0 +1,13 @@
+{
+  "name": "ChronoFlip",
+  "short_name": "ChronoFlip",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "description": "A modern flip clock timer",
+  "icons": [{
+    "src": "assets/images/favicon2.png",
+    "sizes": "48x48",
+    "type": "image/png"
+  }]
+} 
