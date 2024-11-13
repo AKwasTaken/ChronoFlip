@@ -62,7 +62,7 @@ ChronoFlip is a sleek, user-friendly countdown timer that features a visually ap
 
 ## Credits
 - Developed by Aneeth Kumaar
-- Copyright © 2024 ChronoFlip
+- Copyright © 2024 ChronoFlip (No, not really)
 
 ## Browser Compatibility
 - Chrome
