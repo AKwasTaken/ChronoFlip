@@ -61,7 +61,7 @@ ChronoFlip is a sleek, user-friendly countdown timer that features a visually ap
 - 480px: Mobile
 
 ## Credits
-- Developed by Aneeth Kumaar
+- Developed by Aneeth Kumaar with Cursor.
 - Copyright © 2024 ChronoFlip (No, not really)
 
 ## Browser Compatibility
@@ -72,6 +72,3 @@ ChronoFlip is a sleek, user-friendly countdown timer that features a visually ap
 
 ## Things to Fix
 - Timer when hitting zero is a bit laggy, when overlay is shown. Mainly due to the blur effect. Should optimise js.
-
-
-Website, with the help of Cursor.
