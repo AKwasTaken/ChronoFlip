@@ -2,10 +2,9 @@
   $(function () {
     // Initialize variables
     let flipClock;
-    let clockTimer;
-    let wakeLock = null;
     let activeTimer = null;
-    let timerWorker = null;
+    let wakeLock = null;
+    const MINIMUM_DIGITS = 6;
 
     // Initialize audio with preload
     const audio = new Audio('sounds/timer-bell.mp3');
@@ -14,33 +13,6 @@
       sound.preload = 'auto';
       sound.volume = 1.0;
     });
-
-    // Initialize Web Worker
-    function initWorker() {
-      if (typeof Worker !== 'undefined') {
-        try {
-          timerWorker = new Worker('js/timer.worker.js');
-          
-          timerWorker.onmessage = function(e) {
-            if (e.data.type === 'tick') {
-              if (flipClock && activeTimer === flipClock) {
-                flipClock.setTime(e.data.remaining);
-              }
-            }
-            if (e.data.type === 'complete') {
-              if (flipClock && activeTimer === flipClock) {
-                flipClock.setTime(0);
-                setTimeout(() => {
-                  showOverlay();
-                }, 600);
-              }
-            }
-          };
-        } catch (error) {
-          console.log('Worker initialization failed:', error);
-        }
-      }
-    }
 
     // Wake Lock functions
     async function requestWakeLock() {
@@ -82,7 +54,7 @@
     // Overlay functions
     function showOverlay() {
       const overlay = document.querySelector('.timer-complete-overlay');
-      if (overlay) {
+      if (overlay && !overlay.classList.contains('show')) {
         overlay.classList.add('show');
         playSound().catch(console.log);
       }
@@ -90,21 +62,12 @@
 
     function hideOverlay() {
       const overlay = document.querySelector('.timer-complete-overlay');
-      if (overlay) {
+      if (overlay && overlay.classList.contains('show')) {
         overlay.classList.remove('show');
         [audio, backupAudio].forEach(sound => {
           sound.pause();
           sound.currentTime = 0;
         });
-        if (timerWorker) {
-          timerWorker.postMessage({ command: 'stop' });
-        }
-        if (activeTimer) {
-          activeTimer.stop();
-        }
-        if (clockTimer) {
-          clearTimeout(clockTimer);
-        }
         initEmptyClock();
       }
     }
@@ -117,9 +80,6 @@
 
     function initEmptyClock() {
       if (flipClock) {
-        if (clockTimer) {
-          clearTimeout(clockTimer);
-        }
         flipClock.stop();
         $('.js-flipclock').html('');
       }
@@ -128,8 +88,11 @@
         clockFace: 'HourlyCounter',
         countdown: true,
         autoStart: false,
-        minimumDigits: 6
+        minimumDigits: MINIMUM_DIGITS
       });
+      
+      activeTimer = null;
+      releaseWakeLock();
     }
 
     function startCurrentTime() {
@@ -138,6 +101,7 @@
       }
       
       $('.js-flipclock').html('');
+      hideOverlay();
 
       const currentSeconds = getCurrentTimeInSeconds();
       
@@ -145,7 +109,7 @@
         clockFace: 'HourlyCounter',
         autoStart: true,
         countdown: false,
-        minimumDigits: 6,
+        minimumDigits: MINIMUM_DIGITS,
         callbacks: {
           interval: function() {
             const newTime = getCurrentTimeInSeconds();
@@ -163,75 +127,71 @@
       }
       
       $('.js-flipclock').html('');
-
+      hideOverlay();
       requestWakeLock();
 
       flipClock = $('.js-flipclock').FlipClock(timeInSeconds, {
         clockFace: 'HourlyCounter',
         countdown: true,
-        autoStart: false,
-        minimumDigits: 6
+        autoStart: true,
+        minimumDigits: MINIMUM_DIGITS,
+        callbacks: {
+          interval: function() {
+            if (this.factory.getTime().time === 0) {
+              this.stop();
+              showOverlay();
+            }
+          }
+        }
       });
 
       activeTimer = flipClock;
-      
-      // Start the worker
-      if (timerWorker) {
-        timerWorker.postMessage({
-          command: 'start',
-          duration: timeInSeconds
-        });
-      }
     }
 
     // Event Listeners
-    document.addEventListener('click', function() {
-      if (document.querySelector('.timer-complete-overlay').classList.contains('show')) {
-        hideOverlay();
-      }
-    });
+    document.querySelector('.timer-complete-overlay').addEventListener('click', hideOverlay);
 
     $('.preset-times').on('click', '.preset-btn', function() {
       const seconds = parseInt($(this).data('seconds'));
-      if (isNaN(seconds)) {
-        if (this.id === 'current-time-btn') {
-          $('.preset-btn').removeClass('active');
-          $(this).addClass('active');
-          startCurrentTime();
-        }
-        return;
-      }
       $('.preset-btn').removeClass('active');
       $(this).addClass('active');
-      startCountdown(seconds);
+      
+      if (isNaN(seconds)) {
+        if (this.id === 'current-time-btn') {
+          startCurrentTime();
+        }
+      } else {
+        startCountdown(seconds);
+      }
     });
 
     // Theme handling
-    const themeSwitch = document.getElementById('theme-switch');
-    const html = document.documentElement;
-    
     function toggleTheme(e) {
       const theme = e.target.checked ? 'dark' : 'light';
-      html.setAttribute('data-theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('theme', theme);
     }
 
+    const themeSwitch = document.getElementById('theme-switch');
     themeSwitch.addEventListener('change', toggleTheme);
 
     // Load saved theme
     const currentTheme = localStorage.getItem('theme') || 'light';
-    html.setAttribute('data-theme', currentTheme);
+    document.documentElement.setAttribute('data-theme', currentTheme);
     themeSwitch.checked = currentTheme === 'dark';
 
     // Handle visibility changes
-    document.addEventListener('visibilitychange', async () => {
-      if (wakeLock !== null && document.visibilityState === 'visible') {
-        requestWakeLock();
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        if (activeTimer && activeTimer.factory.countdown) {
+          requestWakeLock();
+        }
+      } else {
+        releaseWakeLock();
       }
     });
 
-    // Initialize everything
-    initWorker();
+    // Initialize empty clock
     initEmptyClock();
   });
 })(jQuery);
