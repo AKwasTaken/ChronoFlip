@@ -3,41 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <title>ChronoFlip</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="A modern flip clock timer with theme support">
   <meta name="author" content="Aneeth Kumaar">
+  <meta name="theme-color" content="#1e2327">
   <link rel="icon" type="image/png" href="assets/images/favicon2.png">
-  
-  <!-- Preconnect to external resources -->
+  <link rel="manifest" href="manifest.json">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Dependencies -->
-  <script src="js/jquery.min.js"></script>
+
   <link rel="stylesheet" href="css/flipclock.css">
-  <script src="js/flipclock.min.js"></script>
-  
-  <!-- Custom styles -->
   <link rel="stylesheet" href="css/style.css">
+
+  <script defer src="js/jquery.min.js"></script>
+  <script defer src="js/flipclock.min.js"></script>
+  <script defer src="js/script.js"></script>
 </head>
 
 <body>
   <div class="theme-toggle">
-    <input type="checkbox" id="theme-switch" hidden>
+    <input type="checkbox" id="theme-switch" aria-label="Toggle dark theme">
     <label for="theme-switch">
       <span class="toggle-track"></span>
     </label>
   </div>
 
-  <div class="timer-complete-overlay">
+  <div class="timer-complete-overlay" role="alertdialog" aria-label="Timer finished">
     <div class="message">Time's Up!</div>
   </div>
 
   <div class="clock-container">
     <div class="js-flipclock"></div>
   </div>
-  
+
   <div class="preset-times">
     <button class="preset-btn" data-seconds="5">5s</button>
     <button class="preset-btn" data-seconds="30">30s</button>
@@ -53,9 +53,10 @@
   </div>
 
   <div class="copyright">
-    Made by Aneeth Kumaar with &#x2764 •<a href="https://github.com/AKwasTaken/ChronoFlip" target="_blank" rel="noopener noreferrer">GitHub</a>
+    Made by Aneeth Kumaar with &#x2764; •
+    <a href="https://github.com/AKwasTaken/ChronoFlip" target="_blank" rel="noopener noreferrer">GitHub</a>
   </div>
 
-  <script src="js/script.js"></script>
+  <noscript><p style="position:fixed;top:45%;width:100%;text-align:center">ChronoFlip needs JavaScript.</p></noscript>
 </body>
 </html>

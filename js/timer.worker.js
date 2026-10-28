@@ -1,31 +1,24 @@
 let timer = null;
 
-self.onmessage = function(e) {
-  if (e.data.command === 'start') {
+self.onmessage = function (e) {
+  const data = e.data || {};
+
+  if (data.command === 'start') {
     if (timer) clearInterval(timer);
-    const startTime = Date.now();
-    const duration = e.data.duration * 1000; // Convert to milliseconds
-    
+    const end = Date.now() + data.duration * 1000;
     timer = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const remaining = Math.max(0, duration - elapsed);
-      
-      if (remaining <= 0) {
+      if (Date.now() >= end) {
         clearInterval(timer);
+        timer = null;
         self.postMessage({ type: 'complete' });
-      } else {
-        self.postMessage({ 
-          type: 'tick', 
-          remaining: Math.ceil(remaining / 1000)
-        });
       }
-    }, 100); // Check more frequently than once per second
+    }, 250);
   }
-  
-  if (e.data.command === 'stop') {
+
+  if (data.command === 'stop') {
     if (timer) {
       clearInterval(timer);
       timer = null;
     }
   }
-}; 
+};

@@ -1,74 +1,46 @@
-# ChronoFlip
+<p align="center">
+  <img src="assets/images/favicon2.png" alt="Chronoflip Logo" width="128" height="128">
+</p>
 
-A minimalist, elegant flip clock timer web application built with modern web technologies.
+<div align='center'>
+<h1>ChronoFlip</h1>
+<img src='https://img.shields.io/badge/Status-Archived-lightgrey'></img>
+<img src='https://img.shields.io/badge/HTML%20%7C%20CSS%20%7C%20JS-blue'></img>
+<img src='https://img.shields.io/badge/License-MIT-yellow'></img>
+<br><br><br>
+</div>
 
-## Overview
+> **This project is complete and archived.**
+>
+> ChronoFlip received its final update on October 28, 2026. The repository is read-only: no further changes, issues or pull requests will be accepted. The app still works as-is, and you're welcome to fork it.
+>
+> **[Live demo](https://aneethkumaar.is-a.dev/ChronoFlip/)**
 
-ChronoFlip is a sleek, user-friendly countdown timer that features a visually appealing flip clock animation. Built with simplicity and functionality in mind, it offers an intuitive interface for setting and monitoring countdown timers.
+A minimalist flip clock countdown timer for the browser, built with HTML, CSS, JavaScript, jQuery and [FlipClock.js](https://github.com/objectivehtml/FlipClock).
 
 ## Features
 
-- **Flip Clock Display**: Large, easy-to-read flip clock animation
-- **Preset Timers**: Quick access buttons for common time intervals
-  - 30 seconds
-  - 1 minute
-  - 2 minutes
-  - 5 minutes
-  - 10 minutes
-  - 30 minutes
-  - 1 hour
-  - 2 hours
-- **Theme Toggle**: Switch between light and dark modes
-- **Completion Alert**: Visual overlay and sound notification when timer completes
-- **Responsive Design**: Adapts to different screen sizes
-- **Theme Persistence**: Remembers user's theme preference
-
-## Technical Details
-
-### Technologies Used
-- HTML5
-- CSS3
-- JavaScript/jQuery
-- FlipClock.js library
-
-### Key Components
-- **Theme System**: Uses CSS variables for seamless theme switching
-- **Local Storage**: Maintains theme preferences across sessions
-- **Responsive Layout**: CSS media queries for various screen sizes
-- **Audio Feedback**: Multiple sound sources for better compatibility
-
-### Design Features
-- Minimalist UI
-- Smooth animations
-- Glass-morphism effects
-- Adaptive color schemes
-- Shadow effects for depth
+- **Flip clock display** that scales to fit any screen size and orientation
+- **Preset timers**: 5s, 30s, 1m, 2m, 5m, 10m, 15m, 30m, 1h, 2h
+- **Current Time mode** that shows the time of day as a live flip clock
+- **Light and dark themes**, remembered between visits
+- **Time's Up alert** with a full-screen overlay and a looping alarm, dismissed by click or `Esc`
+- **Reliable in background tabs**: completion runs off a Web Worker and a fixed deadline, so throttled tabs don't delay the alarm
+- **Screen Wake Lock** keeps the display on during a countdown, where supported
 
 ## Usage
 
-1. Select a preset time duration from the buttons at the bottom
-2. Timer starts automatically upon selection
-3. Toggle theme using the switch in the top-right corner
-4. When timer completes:
-   - Visual "Time's Up!" overlay appears
-   - Sound notification plays
-   - Timer resets automatically after 3 seconds
+1. Pick a preset at the bottom. The timer starts immediately.
+2. Use the switch in the top-right corner to change theme.
+3. When the timer ends, the alarm plays until you click the overlay or press `Esc`.
 
-## Responsive Breakpoints
-- 1400px: Large displays
-- 1200px: Desktop
-- 768px: Tablet
-- 480px: Mobile
+Sound is unlocked by your first button click, since browsers block audio that isn't triggered by a user action.
 
-## Credits
-- Developed by Aneeth Kumaar with Cursor.
-- Copyright © 2024 ChronoFlip (No, not really)
 
-## Browser Compatibility
-- Chrome
-- Firefox
-- Safari
-- Edge
+## Browser support
 
-## Things to Fix
-- Timer when hitting zero is a bit laggy, when overlay is shown. Mainly due to the blur effect. Should optimise js.
+Current versions of Chrome, Edge, Firefox and Safari. Firefox 126 or newer is recommended, since older versions fall back to a softer, transform-based scaling.
+
+## License
+
+MIT
